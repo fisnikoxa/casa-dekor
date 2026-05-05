@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  /* Surfaces — warm cream (“quiet luxury”) */
+  --background: #f4efe6;
+  --foreground: #111111;
+
+  --header-surface: #faf7f2;
+
+  /* Muted gold / warm tan — highlights, strokes */
+  --accent: #ae8f60;
+
+  /* Contrast footer band */
+  --charcoal: #1a1a1a;
+
+  --footer-fg: #ebe4d9;
+  --footer-muted: #b8aea0;
+
+  /* Step 4: scroll / reveal timing */
+  --motion-ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-duration-fast: 200ms;
+  --motion-duration-reveal: 520ms;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-charcoal: var(--charcoal);
+  --color-footer-fg: var(--footer-fg);
+  --color-footer-muted: var(--footer-muted);
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-display);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-shimmer-drift {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: translate3d(-1.2%, -0.75%, 0);
+    }
+
+    50% {
+      opacity: 0.74;
+      transform: translate3d(1.1%, 0.65%, 0);
+    }
+  }
+
+  .hero-shimmer {
+    animation: hero-shimmer-drift 14s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    will-change: opacity, transform;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition-property: opacity, transform;
+  transition-duration: var(--motion-duration-reveal);
+  transition-timing-function: var(--motion-ease-standard);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-shimmer {
+    animation: none !important;
+    opacity: 0.52;
+    transform: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
