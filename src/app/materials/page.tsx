@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { InnerPageHeader } from "@/components/inner-page-header";
+import { MarbleVsSolidBody } from "@/components/materials/marble-vs-solid-body";
+import { Reveal } from "@/components/home/reveal";
+
+const BACKDROP_MATERIALS =
+  "https://images.unsplash.com/photo-1574359410119-3a38e817c104?auto=format&fit=crop&w=1600&q=65";
+
 export const metadata: Metadata = {
   title: "Materials",
   description:
     "Learn how CASA DECOR mixes PVC practicality with marble glamour — comparisons, suggested rooms in Macedonia, and honest maintenance cues.",
 };
 
-const sections = [
+const sectionsBeforeMarble = [
   {
     id: "pvc-benefits",
     title: "Why PVC wall cladding works",
@@ -27,36 +34,15 @@ const sections = [
       </>
     ),
   },
-  {
-    id: "marble-vs-solid",
-    title: "Marble-effect glamour vs tonal solids",
-    kicker: "Pick the storyline your space already hints at",
-    body: (
-      <>
-        <p className="mb-6 text-base leading-[1.9]">
-          Marble-style PVC thrives when lighting can graze the surface — think living rooms beside
-          full-height drapes or hospitality booths with pin spots. Solid and micro-grain palettes let
-          joinery or artwork lead; they conceal scuffs longer in corridors kids attack daily.
-        </p>
-        <div className="grid gap-4 md:grid-cols-2">
-          <figure className="rounded-sm border border-foreground/10 bg-[var(--header-surface)] p-5">
-            <figcaption className="font-serif text-xl text-foreground">Marble-look moods</figcaption>
-            <p className="mt-4 text-sm leading-relaxed text-foreground/70">
-              Amplify dusk lighting, veil TV walls, disguise oversized structural columns with continuous
-              veining.
-            </p>
-          </figure>
-          <figure className="rounded-sm border border-foreground/10 bg-[var(--header-surface)] p-5">
-            <figcaption className="font-serif text-xl text-foreground">Solid & micro-grain moods</figcaption>
-            <p className="mt-4 text-sm leading-relaxed text-foreground/70">
-              Support bold furniture colours, camouflage fingerprints near entries, unify open-plan cubes
-              with quiet surfaces.
-            </p>
-          </figure>
-        </div>
-      </>
-    ),
-  },
+] as const;
+
+const marbleSection = {
+  id: "marble-vs-solid",
+  title: "Marble-effect glamour vs tonal solids",
+  kicker: "Pick the storyline your space already hints at",
+} as const;
+
+const sectionsAfterMarble = [
   {
     id: "rooms",
     title: "Suggested rooms & adjacencies",
@@ -110,27 +96,35 @@ const sections = [
   },
 ] as const;
 
+const navSections = [
+  sectionsBeforeMarble[0],
+  marbleSection,
+  ...sectionsAfterMarble,
+];
+
 export default function MaterialsPage() {
   return (
     <main className="bg-background">
-      <header className="border-b border-accent/25 bg-[var(--header-surface)] px-5 py-12 lg:px-8 lg:py-16">
-        <div className="mx-auto max-w-4xl space-y-5">
-          <p className="font-sans text-xs font-semibold uppercase tracking-[0.32em] text-foreground/50">
-            Specification primer
-          </p>
-          <h1 className="font-serif text-4xl font-semibold tracking-tight text-foreground sm:text-[2.75rem]">
-            Materials playbook for Macedonia’s interiors
-          </h1>
-          <p className="font-sans text-lg leading-relaxed text-foreground/73">
-            We trade in PVC wall décors—not mystery composites. Browse the headings below before diving
-            into{" "}
-            <Link href="/collections" className="text-accent underline-offset-4 hover:underline">
-              collection dossiers
-            </Link>
-            .
-          </p>
-        </div>
-      </header>
+      <InnerPageHeader backdropSrc={BACKDROP_MATERIALS} parallaxStrength={0.4}>
+        <Reveal>
+          <div className="mx-auto max-w-4xl space-y-5">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.32em] text-foreground/50">
+              Specification primer
+            </p>
+            <h1 className="font-serif text-4xl font-extrabold tracking-tight text-foreground sm:text-[2.75rem]">
+              Materials playbook for Macedonia’s interiors
+            </h1>
+            <p className="font-sans text-lg leading-relaxed text-foreground/73">
+              We trade in PVC wall décors—not mystery composites. Browse the headings below before diving
+              into{" "}
+              <Link href="/collections" className="text-accent underline-offset-4 hover:underline">
+                collection dossiers
+              </Link>
+              .
+            </p>
+          </div>
+        </Reveal>
+      </InnerPageHeader>
 
       <div className="mx-auto max-w-4xl px-5 py-16 lg:px-8 lg:py-20">
         <nav aria-label="On-page topics" className="mb-12 rounded-sm border border-foreground/10 p-6">
@@ -138,7 +132,7 @@ export default function MaterialsPage() {
             Jump to section
           </p>
           <ol className="mt-5 space-y-2 font-sans text-sm text-accent">
-            {sections.map((section, index) => (
+            {navSections.map((section, index) => (
               <li key={section.id}>
                 <a className="hover:underline hover:text-accent/80" href={`#${section.id}`}>
                   <span className="text-foreground/40">{`${String(index + 1).padStart(2, "0")}.`}</span>{" "}
@@ -150,21 +144,61 @@ export default function MaterialsPage() {
         </nav>
 
         <div className="space-y-16">
-          {sections.map((section) => (
-            <section key={section.id} id={section.id} aria-labelledby={`${section.id}-heading`}>
+          {sectionsBeforeMarble.map((section, index) => (
+            <Reveal key={section.id} delayMs={index * 100}>
+              <section id={section.id} aria-labelledby={`${section.id}-heading`}>
+                <header className="space-y-2">
+                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.32em] text-foreground/50">
+                    {section.kicker}
+                  </p>
+                  <h2
+                    id={`${section.id}-heading`}
+                    className="font-serif text-3xl font-bold tracking-tight text-foreground"
+                  >
+                    {section.title}
+                  </h2>
+                </header>
+                <div className="mt-8 text-foreground/75">{section.body}</div>
+              </section>
+            </Reveal>
+          ))}
+
+          <Reveal delayMs={100}>
+            <section id={marbleSection.id} aria-labelledby={`${marbleSection.id}-heading`}>
               <header className="space-y-2">
                 <p className="font-sans text-xs font-semibold uppercase tracking-[0.32em] text-foreground/50">
-                  {section.kicker}
+                  {marbleSection.kicker}
                 </p>
                 <h2
-                  id={`${section.id}-heading`}
-                  className="font-serif text-3xl font-semibold tracking-tight text-foreground"
+                  id={`${marbleSection.id}-heading`}
+                  className="font-serif text-3xl font-bold tracking-tight text-foreground"
                 >
-                  {section.title}
+                  {marbleSection.title}
                 </h2>
               </header>
-              <div className="mt-8 text-foreground/75">{section.body}</div>
+              <div className="mt-8 text-foreground/75">
+                <MarbleVsSolidBody />
+              </div>
             </section>
+          </Reveal>
+
+          {sectionsAfterMarble.map((section, index) => (
+            <Reveal key={section.id} delayMs={(index + 2) * 100}>
+              <section id={section.id} aria-labelledby={`${section.id}-heading`}>
+                <header className="space-y-2">
+                  <p className="font-sans text-xs font-semibold uppercase tracking-[0.32em] text-foreground/50">
+                    {section.kicker}
+                  </p>
+                  <h2
+                    id={`${section.id}-heading`}
+                    className="font-serif text-3xl font-bold tracking-tight text-foreground"
+                  >
+                    {section.title}
+                  </h2>
+                </header>
+                <div className="mt-8 text-foreground/75">{section.body}</div>
+              </section>
+            </Reveal>
           ))}
         </div>
       </div>

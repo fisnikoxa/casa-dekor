@@ -6,7 +6,7 @@ export function SiteFooter() {
     <footer className="border-t border-accent/30 bg-charcoal text-footer-fg">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:pb-14 lg:pt-16">
         <div className="max-w-xl space-y-3">
-          <p className="font-serif text-xl font-semibold tracking-tight text-footer-fg sm:text-[1.35rem]">
+          <p className="font-serif text-xl font-bold tracking-tight text-footer-fg sm:text-[1.35rem]">
             Copyright © CASA DECOR · Republic of North Macedonia
           </p>
           <p className="font-sans text-sm leading-relaxed text-footer-muted">

@@ -5,6 +5,9 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
+  experimental: {
+    viewTransition: true,
+  },
   /** Avoid picking a parent-folder lockfile as the Turbopack workspace root on Windows/Dev Drive setups */
   turbopack: {
     root: ROOT,

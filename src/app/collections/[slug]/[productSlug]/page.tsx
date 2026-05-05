@@ -95,7 +95,7 @@ export default async function CollectionProductPage({ params }: PageProps) {
             <p className="font-sans text-xs font-semibold uppercase tracking-[0.32em] text-foreground/50">
               SKU spotlight
             </p>
-            <h1 className="font-serif text-4xl font-semibold tracking-tight text-foreground sm:text-[2.75rem]">
+            <h1 className="font-serif text-4xl font-extrabold tracking-tight text-foreground sm:text-[2.75rem]">
               {product.title}
             </h1>
             <p className="font-sans text-lg leading-relaxed text-foreground/75">

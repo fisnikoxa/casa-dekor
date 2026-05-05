@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+
+import { CustomCursor } from "@/components/custom-cursor";
+import { PageLoader } from "@/components/page-loader";
+import { PageTransition } from "@/components/page-transition";
+import { ScrollProgress } from "@/components/scroll-progress";
+import { ScrollRestorationFix } from "@/components/scroll-restoration-fix";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { fontBody, fontDisplay } from "@/app/fonts";
 import { siteConfig } from "@/lib/siteConfig";
+
 import "./globals.css";
-
-const displaySerif = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-});
-
-const bodySans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-body",
-  weight: ["400", "500", "600"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -35,16 +29,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  /* Pricing copy will use formatMkd() from @/lib/formatMkd — MKD throughout. */
-
   return (
     <html
       lang="en"
-      className={`${bodySans.variable} ${displaySerif.variable} h-full antialiased`}
+      className={`${fontBody.variable} ${fontDisplay.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col bg-background text-foreground">
+      <body
+        className="flex min-h-full flex-col bg-background text-foreground font-semibold"
+        suppressHydrationWarning
+      >
+        <ScrollRestorationFix />
+        <PageLoader />
+        <ScrollProgress />
+        <CustomCursor />
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <PageTransition>
+          <main className="flex-1 pt-[var(--header-height)]">{children}</main>
+        </PageTransition>
         <SiteFooter />
       </body>
     </html>

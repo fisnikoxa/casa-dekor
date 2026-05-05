@@ -4,11 +4,14 @@ export function SocialLinks({
   facebookHref,
   instagramHref,
   variant,
+  headerOverDark = false,
   className = "",
 }: {
   facebookHref: string;
   instagramHref: string;
   variant: "header" | "footer";
+  /** Header resting over dark hero — lifts contrast for icons + labels */
+  headerOverDark?: boolean;
   className?: string;
 }) {
   const fb = facebookHref.startsWith("http") ? facebookHref : undefined;
@@ -17,12 +20,22 @@ export function SocialLinks({
   const iconTone =
     variant === "footer"
       ? "text-accent/90 hover:text-accent"
-      : "text-accent hover:text-accent/80";
+      : headerOverDark
+        ? "text-accent hover:text-footer-fg"
+        : "text-accent hover:text-accent/80";
 
   const labelTone =
-    variant === "footer" ? "text-footer-muted" : "text-foreground/60";
+    variant === "footer"
+      ? "text-footer-muted"
+      : headerOverDark
+        ? "text-footer-muted"
+        : "text-foreground/60";
   const labelHoverTone =
-    variant === "footer" ? "hover:text-footer-fg" : "hover:text-foreground";
+    variant === "footer"
+      ? "hover:text-footer-fg"
+      : headerOverDark
+        ? "hover:text-footer-fg"
+        : "hover:text-foreground";
 
   const items: {
     label: string;

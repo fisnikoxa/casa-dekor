@@ -22,6 +22,8 @@ export type CollectionDetail = {
   summary: string;
   story: string;
   cover: CollectionImage;
+  /** Alternate texture revealed on hover */
+  coverDetail?: CollectionImage;
   products: readonly ProductDetail[];
 };
 
@@ -36,6 +38,10 @@ export const catalogue: readonly CollectionDetail[] = [
     cover: {
       src: `https://images.unsplash.com/photo-1586023492125-27b2c045efd7${q72}`,
       alt: "Close-up marble-look surface with tonal veining",
+    },
+    coverDetail: {
+      src: `https://images.unsplash.com/photo-1574359410119-3a38e817c104${q72}`,
+      alt: "Rhythmic wall grid pattern photographed at an angle",
     },
     products: [
       {
@@ -90,6 +96,10 @@ export const catalogue: readonly CollectionDetail[] = [
       src: `https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b${q72}`,
       alt: "Architectural wall with vertical grooves and soft lighting",
     },
+    coverDetail: {
+      src: `https://images.unsplash.com/photo-1600607687939-ce8a6c25118c${q72}`,
+      alt: "Lounge vignette emphasizing soft wall panel rhythm",
+    },
     products: [
       {
         slug: "axis-fluted-system",
@@ -139,6 +149,10 @@ export const catalogue: readonly CollectionDetail[] = [
     cover: {
       src: `https://images.unsplash.com/photo-1519710164239-da123dc03ef4${q72}`,
       alt: "Warm neutral interior emphasizing soft wall tones",
+    },
+    coverDetail: {
+      src: `https://images.unsplash.com/photo-1600566753229-7d8d6c9657d4${q72}`,
+      alt: "Cream pressed-grain wall surface under stair lighting",
     },
     products: [
       {
